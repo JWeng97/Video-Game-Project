@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Prime31;
+using UnityEngine.UI;
 
 
 public class PlayerController: MonoBehaviour
@@ -24,6 +25,17 @@ public class PlayerController: MonoBehaviour
 	private Vector3 _velocity;
 	private BallController _ballController;
 	private float kickPower = 0;
+	// TEST value for how much power a kick can accumulate
+	public float kickPowerLimit = 3f;
+
+
+	// TEST value for when ball can be kicked
+	public float acceptablePToBDistance = 2f;
+	private float playerToBallDistance; 
+
+	// TEST count how many times a player has been hit
+	public Text playerDeaths;
+	private int deathCount = 0;
 
 	void Awake()
 	{
@@ -36,6 +48,7 @@ public class PlayerController: MonoBehaviour
 		_controller.onControllerCollidedEvent += onControllerCollider;
 		_controller.onTriggerEnterEvent += onTriggerEnterEvent;
 		_controller.onTriggerExitEvent += onTriggerExitEvent;
+		playerDeaths.text = "Player 1 Deaths: " + deathCount;
 	}
 
 
@@ -55,6 +68,7 @@ public class PlayerController: MonoBehaviour
 	{
 		if (col.tag == "Ball") {
 			Debug.Log( "onTriggerEnterEvent: PLAYER HIT! " + col.gameObject.name );
+			// Eventually need to change this to accuont 
 			StartCoroutine(HitByBall());
 		}
 	}
@@ -78,6 +92,8 @@ public class PlayerController: MonoBehaviour
 	// the animation for when a player has been hit by a ball
 	IEnumerator HitByBall() 
 	{
+		deathCount++;
+		playerDeaths.text = "Player 1 Deaths: " + deathCount;
 		this.GetComponent<CircleCollider2D>().enabled = false;
 		for (int i = 0; i < 10; i++) {
 			_spriteRenderer.enabled = false;
@@ -88,7 +104,6 @@ public class PlayerController: MonoBehaviour
 		this.GetComponent<CircleCollider2D>().enabled = true;
 	}
 
-	// the Update loop contains a very simple example of moving the character around and controlling the animation
 	void Update()
 	{
 		if( _controller.isGrounded )
@@ -121,12 +136,16 @@ public class PlayerController: MonoBehaviour
 		}
 		
 		// Gather power to kick the ball w/ space
-		if (Input.GetKeyDown(KeyCode.Space)) {
+		if (Input.GetKey(KeyCode.Space) && kickPower < kickPowerLimit) {
 			kickPower += Time.deltaTime;
 			Debug.Log("increasing kick power: " + kickPower);
-		} else if (Input.GetKeyUp(KeyCode.Space)) {
-			if (kickPower > 0 && _ballController.isGrounded()) {
+		} 
+		if (Input.GetKeyUp(KeyCode.Space)) {
+			// if released space, check to make sure ball is close enough to the player
+			playerToBallDistance = Vector3.Distance(ball.transform.position, this.transform.position);
+			if (kickPower > 0  && playerToBallDistance < acceptablePToBDistance) {
 				KickBall();
+				print("kicked ball");
 			}
 			kickPower= 0;
 		}
