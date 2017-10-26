@@ -118,7 +118,7 @@ public class Player2Controller: MonoBehaviour
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 
 			if( _controller.isGrounded )
-				_animator.Play( Animator.StringToHash( "Player2Run" ) );
+				_animator.Play( Animator.StringToHash( "PlayerRun" ) );
 		}
 		else if( Input.GetKey( KeyCode.A) )
 		{
@@ -127,14 +127,14 @@ public class Player2Controller: MonoBehaviour
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 
 			if( _controller.isGrounded )
-				_animator.Play( Animator.StringToHash( "Player2Run" ) );
+				_animator.Play( Animator.StringToHash( "PlayerRun" ) );
 		}
 		else
 		{
 			normalizedHorizontalSpeed = 0;
 
 			if( _controller.isGrounded )
-				_animator.Play( Animator.StringToHash( "Player2Idle" ) );
+				_animator.Play( Animator.StringToHash( "PlayerIdle" ) );
 		}
 		
 		// Gather power to kick the ball w/ space
@@ -147,7 +147,6 @@ public class Player2Controller: MonoBehaviour
 			playerToBallDistance = Vector3.Distance(ball.transform.position, this.transform.position);
 			if (kickPower > 0  && playerToBallDistance < acceptablePToBDistance) {
 				KickBall();
-				print("kicked ball");
 			}
 			kickPower= 0;
 		}
@@ -156,7 +155,7 @@ public class Player2Controller: MonoBehaviour
 		if( _controller.isGrounded && Input.GetKeyDown( KeyCode.W) )
 		{
 			_velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
-			_animator.Play( Animator.StringToHash( "Player2Jump" ) );
+			_animator.Play( Animator.StringToHash( "PlayerJump" ) );
 		}
 
 
