@@ -37,6 +37,17 @@ public class PlayerController: MonoBehaviour
 	public Text playerDeaths;
 	private int deathCount = 0;
 
+	//Per-Player Settings
+	/* movement controls */
+	public KeyCode leftKey = KeyCode.LeftArrow;
+	public KeyCode rightKey = KeyCode.RightArrow;
+	public KeyCode upKey = KeyCode.UpArrow;
+	public KeyCode downKey = KeyCode.DownArrow;
+	/* kicking controls */
+	public KeyCode kickKey = KeyCode.K;
+
+
+
 	void Awake()
 	{
 		_animator = GetComponent<Animator>();
@@ -109,7 +120,7 @@ public class PlayerController: MonoBehaviour
 		if( _controller.isGrounded )
 			_velocity.y = 0;
 
-		if( Input.GetKey( KeyCode.RightArrow ) )
+		if( Input.GetKey( rightKey ) )
 		{
 			normalizedHorizontalSpeed = 1;
 			if( transform.localScale.x < 0f )
@@ -118,7 +129,7 @@ public class PlayerController: MonoBehaviour
 			if( _controller.isGrounded )
 				_animator.Play( Animator.StringToHash( "PlayerRun" ) );
 		}
-		else if( Input.GetKey( KeyCode.LeftArrow ) )
+		else if( Input.GetKey( leftKey ) )
 		{
 			normalizedHorizontalSpeed = -1;
 			if( transform.localScale.x > 0f )
@@ -136,11 +147,11 @@ public class PlayerController: MonoBehaviour
 		}
 		
 		// Gather power to kick the ball w/ space
-		if (Input.GetKey(KeyCode.Space) && kickPower < kickPowerLimit) {
+		if (Input.GetKey(kickKey) && kickPower < kickPowerLimit) {
 			kickPower += Time.deltaTime;
 			Debug.Log("increasing kick power: " + kickPower);
 		} 
-		if (Input.GetKeyUp(KeyCode.Space)) {
+		if (Input.GetKeyUp(kickKey)) {
 			// if released space, check to make sure ball is close enough to the player
 			playerToBallDistance = Vector3.Distance(ball.transform.position, this.transform.position);
 			if (kickPower > 0  && playerToBallDistance < acceptablePToBDistance) {
@@ -151,7 +162,7 @@ public class PlayerController: MonoBehaviour
 		}
 
 		// we can only jump whilst grounded
-		if( _controller.isGrounded && Input.GetKeyDown( KeyCode.UpArrow ) )
+		if( _controller.isGrounded && Input.GetKeyDown( upKey ) )
 		{
 			_velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
 			_animator.Play( Animator.StringToHash( "PlayerJump" ) );
@@ -167,7 +178,7 @@ public class PlayerController: MonoBehaviour
 
 		// if holding down bump up our movement amount and turn off one way platform detection for a frame.
 		// this lets us jump down through one way platforms
-		if( _controller.isGrounded && Input.GetKey( KeyCode.DownArrow ) )
+		if( _controller.isGrounded && Input.GetKey( downKey ) )
 		{
 			_velocity.y *= 3f;
 			_controller.ignoreOneWayPlatformsThisFrame = true;
