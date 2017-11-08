@@ -71,6 +71,11 @@ public class PlayerController: MonoBehaviour
 		if( hit.normal.y == 1f )
 			return;
 
+		if (hit.collider.tag == "Ball") {
+			Debug.Log("KICKED THE BALL");
+			KickBall();
+		}
+
 		// logs any collider hits if uncommented. it gets noisy so it is commented out for the demo
 		//Debug.Log( "flags: " + _controller.collisionState + ", hit.normal: " + hit.normal );
 	}
@@ -78,7 +83,7 @@ public class PlayerController: MonoBehaviour
 	void onTriggerEnterEvent( Collider2D col )
 	{
 		if (col.tag == "Ball") {
-			Debug.Log( "onTriggerEnterEvent: PLAYER HIT! " + col.gameObject.name );
+			Debug.Log("onTriggerEnterEvent: PLAYER HIT! " + col.gameObject.name );
 			// Eventually need to change this to accuont 
 			StartCoroutine(HitByBall());
 		}
@@ -92,12 +97,14 @@ public class PlayerController: MonoBehaviour
 
 	#endregion
 
-	//Fires when space is held down and the player is near the ball
+	// Triggered when player collides with the ball near the feet
 	void KickBall() 
-	{
+	{	
+		kickPower = 3;
 		Vector3 angle = this.transform.forward;
 		int direction = (this._velocity.x > 0) ? 1 : -1;
-		ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * (angle.x * kickPower + Random.Range(5,10)), angle.y * kickPower + Random.Range(1,10));
+		Vector3 playerVelocity = this._velocity;
+		ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * (angle.x * kickPower + Random.Range(5,10)), angle.y * kickPower + Random.Range(1,10)) + playerVelocity;
 	}
 
 	// the animation for when a player has been hit by a ball
@@ -120,6 +127,7 @@ public class PlayerController: MonoBehaviour
 		if( _controller.isGrounded )
 			_velocity.y = 0;
 
+		// Move right and set correct animation
 		if( Input.GetKey( rightKey ) )
 		{
 			normalizedHorizontalSpeed = 1;
@@ -129,6 +137,8 @@ public class PlayerController: MonoBehaviour
 			if( _controller.isGrounded )
 				_animator.Play( Animator.StringToHash( "PlayerRun" ) );
 		}
+
+		// Move left and set correct animation
 		else if( Input.GetKey( leftKey ) )
 		{
 			normalizedHorizontalSpeed = -1;
@@ -145,7 +155,8 @@ public class PlayerController: MonoBehaviour
 			if( _controller.isGrounded )
 				_animator.Play( Animator.StringToHash( "PlayerIdle" ) );
 		}
-		
+ 
+		/*	Kick and Hold feature removed in the current version. 
 		// Gather power to kick the ball w/ space
 		if (Input.GetKey(kickKey) && kickPower < kickPowerLimit) {
 			kickPower += Time.deltaTime;
@@ -160,6 +171,7 @@ public class PlayerController: MonoBehaviour
 			}
 			kickPower= 0;
 		}
+		*/
 
 		// we can only jump whilst grounded
 		if( _controller.isGrounded && Input.GetKeyDown( upKey ) )
