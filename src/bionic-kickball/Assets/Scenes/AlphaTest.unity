@@ -398,11 +398,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4295481025127670, guid: b3be45f93fb0ecf4aae0d218ee030f11, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8.66
+      value: -6.827
       objectReference: {fileID: 0}
     - target: {fileID: 4295481025127670, guid: b3be45f93fb0ecf4aae0d218ee030f11, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.83
+      value: -0.793
       objectReference: {fileID: 0}
     - target: {fileID: 4295481025127670, guid: b3be45f93fb0ecf4aae0d218ee030f11, type: 2}
       propertyPath: m_LocalPosition.z
@@ -466,7 +466,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4295481025127670, guid: b3be45f93fb0ecf4aae0d218ee030f11, type: 2}
       propertyPath: m_LocalScale.x
-      value: -0.9398361
+      value: 0.9398361
       objectReference: {fileID: 0}
     - target: {fileID: 58423239701591264, guid: b3be45f93fb0ecf4aae0d218ee030f11,
         type: 2}
@@ -496,11 +496,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4416306908076450, guid: e8c7ddf27d1744759a691074dcdb0dc5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.1
+      value: -3.21
       objectReference: {fileID: 0}
     - target: {fileID: 4416306908076450, guid: e8c7ddf27d1744759a691074dcdb0dc5, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.43
+      value: 1.22
       objectReference: {fileID: 0}
     - target: {fileID: 4416306908076450, guid: e8c7ddf27d1744759a691074dcdb0dc5, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1397,7 +1397,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1977783790}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.3, y: -1.45, z: 0}
+  m_LocalPosition: {x: -7.84, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1527,7 +1527,7 @@ MonoBehaviour:
   jumpHeight: 3
   ball: {fileID: 1717590876}
   kickPowerLimit: 3
-  acceptablePToBDistance: 2
+  acceptablePToBDistance: 1
   playerDeaths: {fileID: 1924935470}
 --- !u!1 &2000546047
 GameObject:

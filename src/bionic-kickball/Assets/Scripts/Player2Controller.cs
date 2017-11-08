@@ -27,8 +27,6 @@ public class Player2Controller: MonoBehaviour
 	private float kickPower = 0;
 	// TEST value for how much power a kick can accumulate
 	public float kickPowerLimit = 3f;
-	
-	private bool ballBelowPlayer;
 
 
 	// TEST value for when ball can be kicked
@@ -90,7 +88,7 @@ public class Player2Controller: MonoBehaviour
 	{
 		Vector3 angle = this.transform.forward;
 		int direction = (this._velocity.x > 0) ? 1 : -1;
-		ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * (angle.x * kickPower + Random.Range(10,15)), angle.y * kickPower + Random.Range(1,10));
+		ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * (angle.x * kickPower + Random.Range(5,10)), angle.y * kickPower + Random.Range(1,10));
 	}
 
 	// the animation for when a player has been hit by a ball
@@ -140,15 +138,14 @@ public class Player2Controller: MonoBehaviour
 		}
 		
 		// Gather power to kick the ball w/ space
-		if (Input.GetKey(KeyCode.Space) && kickPower < kickPowerLimit) {
+		if (Input.GetKey(KeyCode.J) && kickPower < kickPowerLimit) {
 			kickPower += Time.deltaTime;
 			Debug.Log("increasing kick power: " + kickPower);
 		} 
-		if (Input.GetKeyUp(KeyCode.Space)) {
-			// if released space, check to make sure ball is close enough to the player and below their body?
-			ballBelowPlayer = (ball.transform.position.y < this.transform.position.y) ? true : false;
+		if (Input.GetKeyUp(KeyCode.J)) {
+			// if released space, check to make sure ball is close enough to the player
 			playerToBallDistance = Vector3.Distance(ball.transform.position, this.transform.position);
-			if (kickPower > 0  && playerToBallDistance < acceptablePToBDistance && ballBelowPlayer) {
+			if (kickPower > 0  && playerToBallDistance < acceptablePToBDistance) {
 				KickBall();
 			}
 			kickPower= 0;
