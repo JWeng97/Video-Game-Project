@@ -50,11 +50,19 @@ public class PlayerController: MonoBehaviour
 	public KeyCode slideKey = KeyCode.L;
 
 	private bool hasLandedSinceDivekick;
-	private bool isDivekicking;
-	public Vector3 diveKickForce = new Vector3(300f, -300f, 0);
+	private bool isDivekicking = false;
+	private bool isSliding = false;
+	public Vector3 diveKickForce = new Vector3(150f, -150f, 0);
+	private bool SkipInputControls = false;
+	private bool facingRight = false;
+	private bool slideOnCooldown = false;
+	private bool rotationOnCooldown = false;
+	private Quaternion startingRotation;
+
 
 	void Awake()
 	{
+		startingRotation = transform.rotation;
 		_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
@@ -77,13 +85,11 @@ public class PlayerController: MonoBehaviour
 			return;
 
 		if (hit.collider.tag == "HeadCollider") {
-			Debug.Log("PLAYER HIT");
 			StartCoroutine(HitByBall());
 		}
 
 		// to kick a ball encountered by a player
 		if (hit.collider.tag == "Ball") {
-			Debug.Log("KICKED THE BALL");
 			KickBall();
 		}
 
@@ -128,7 +134,7 @@ public class PlayerController: MonoBehaviour
 	IEnumerator HitByBall() 
 	{
 		deathCount++;
-		playerDeaths.text = "Player 1 Deaths: " + deathCount;
+		SetPlayerDeathText();
 		this.GetComponent<CircleCollider2D>().enabled = false;
 		for (int i = 0; i < 10; i++) {
 			_spriteRenderer.enabled = false;
@@ -144,65 +150,104 @@ public class PlayerController: MonoBehaviour
 		_animator.Play("p1_slide");
 		Quaternion originalRotation = transform.rotation;	
 		transform.rotation = Quaternion.AngleAxis(-45 * facingDirection, Vector3.forward);
-		transform.rotation = originalRotation;
+	}
+
+	void Slide() {
+		isSliding = true;
+	}
+
+	// Adds gravity to a move
+	void AddGravity() {
+		_velocity.y += gravity * Time.deltaTime;
+	}
+
+	IEnumerator SlideCooldown() {
+		slideOnCooldown = true;
+		yield return new WaitForSeconds(1f);
+		slideOnCooldown = false;
+	}
+	
+	IEnumerator RotationCooldown() {
+		rotationOnCooldown = true;
+		yield return new WaitForSeconds(.1f);
+		rotationOnCooldown = false;
+	}
+
+	void SlideOrRun() {
+		if( _controller.isGrounded ) {
+			if (Input.GetKey(slideKey) && !slideOnCooldown) {
+				_animator.Play("p1_slide");
+				StartCoroutine(SlideCooldown());
+			} else {
+				_animator.Play("p1_run");
+			} 
+		// if not grounded then attempting to Divekick
+		} else if (Input.GetKey(slideKey) && hasLandedSinceDivekick) {
+			print("trying to divekick");
+			//	DiveKick(normalizedHorizontalSpeed);
+		}
 	}
 
 	void Update()
 	{
 		if( _controller.isGrounded ) {
+			if (isDivekicking) {
+				isDivekicking = false;
+				SkipInputControls = false;
+				hasLandedSinceDivekick = true;
+				if (!rotationOnCooldown){
+					transform.rotation = startingRotation;
+					StartCoroutine(RotationCooldown());
+				}
+			}
 			_velocity.y = 0;
-			hasLandedSinceDivekick = true;
-			isDivekicking = false;
 		} else if (this.isDivekicking) {
 			// want to continue divekick and not allow other movement
-			return;
+			print(isDivekicking);
+			AddGravity();
+			SkipInputControls = true;
 		}
 
-		// Move right and set correct animation
-		if( Input.GetKey( rightKey ) )
-		{
-			normalizedHorizontalSpeed = 1;
-			if( transform.localScale.x < 0f )
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-
-			if( _controller.isGrounded ) {
-				if (Input.GetKey(slideKey)) {
-					_animator.Play("p1_slide");
-				} else {
-					_animator.Play("p1_run");
-				} 
-			} else if (Input.GetKey(slideKey) && hasLandedSinceDivekick) {
-				DiveKick(normalizedHorizontalSpeed);
+		if (!SkipInputControls) {
+			// Move right and set correct animation
+			if(!_controller.isGrounded && Input.GetKey(slideKey)) {
+				int dir = (facingRight) ? 1 : -1;
+				DiveKick(dir);
 			}
-		}
-
-		// Move left and set correct animation
-		else if( Input.GetKey( leftKey ) )
-		{
-			normalizedHorizontalSpeed = -1;
-			if( transform.localScale.x > 0f )
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-
-			if( _controller.isGrounded ) {
-				if (Input.GetKey(slideKey)) {
-					_animator.Play("p1_slide");	
-				} else {
-					_animator.Play("p1_run");
+			else if( Input.GetKey( rightKey ) )
+			{
+				normalizedHorizontalSpeed = 1;
+				facingRight = true;
+				if( transform.localScale.x < 0f ) {
+					transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 				}
-			// else, you are in the air so if 
-			} else if (Input.GetKey(slideKey) && hasLandedSinceDivekick) {
-				DiveKick(normalizedHorizontalSpeed);
+				SlideOrRun();	
+			}
+
+			// Move left and set correct animation
+			else if( Input.GetKey( leftKey ) )
+			{
+				normalizedHorizontalSpeed = -1;
+				facingRight = false;
+				if( transform.localScale.x > 0f ) {
+					transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				}
+				SlideOrRun();
+
+			} else if (Input.GetKey(slideKey)) {
+				//Just Sliding not divekicking, apply different force
+				_animator.Play("p1_slide");
+				print("sliding");
+			}
+			else
+			{
+				normalizedHorizontalSpeed = 0;
+
+				if( _controller.isGrounded )
+					_animator.Play("p1_idle");
+			
 			}
 		}
-
-		else
-		{
-			normalizedHorizontalSpeed = 0;
-
-			if( _controller.isGrounded )
-				_animator.Play("p1_idle");
-		}
-
 		// we can only jump whilst grounded
 		if( _controller.isGrounded && Input.GetKeyDown( upKey ) )
 		{
@@ -214,21 +259,21 @@ public class PlayerController: MonoBehaviour
 		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 		_velocity.x = Mathf.Lerp( _velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime * smoothedMovementFactor );
 		if (isDivekicking) {
-			_velocity.x = Mathf.Lerp(_velocity.x, diveKickForce.x, Time.deltaTime * smoothedMovementFactor );
+			float horizontalForce = (facingRight) ?  diveKickForce.x  : -1 * diveKickForce.x;
+			_velocity.x = Mathf.Lerp(_velocity.x, horizontalForce, Time.deltaTime * smoothedMovementFactor );
 			_velocity.y += diveKickForce.y;
-			Debug.Log(_velocity);
 		}
 		// apply gravity before moving
-		_velocity.y += gravity * Time.deltaTime;
-
+		AddGravity();
 
 		// if holding down bump up our movement amount and turn off one way platform detection for a frame.
 		// this lets us jump down through one way platforms
-		if( _controller.isGrounded && Input.GetKey( downKey ) )
+/*		if( _controller.isGrounded && Input.GetKey( downKey ) )
 		{
+			Debug.Log("Trying to go through one way platform");
 			_velocity.y *= 3f;
 			_controller.ignoreOneWayPlatformsThisFrame = true;
-		}
+		}*/
 
 
 

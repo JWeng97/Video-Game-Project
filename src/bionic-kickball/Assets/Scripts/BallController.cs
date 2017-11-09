@@ -8,18 +8,30 @@ public class BallController : MonoBehaviour {
 	private bool grounded;
 	private CircleCollider2D _circleCollider;
 	private float distToGround;
-
+	private GameObject redTrail;
+	private GameObject blueTrail;
+	
 	private GameObject playerWhoKickedLast;
 
 	// Use this for initialization
 	void Awake() {
 		_circleCollider = this.GetComponent<CircleCollider2D>();
-		distToGround = _circleCollider.bounds.extents.y;	
+		distToGround = _circleCollider.bounds.extents.y;
+		redTrail = transform.Find("RedTrail").gameObject;
+		blueTrail = transform.Find("BlueTrail").gameObject;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (playerWhoKickedLast != null){
+			if (GetPlayerWhoKickedLast().name == "Player1") {
+				blueTrail.SetActive(true);
+				redTrail.SetActive(false);
+			} else {
+				redTrail.SetActive(true);
+				blueTrail.SetActive(false);
+			}
+		}
 	}
 
 	public void SetPlayerWhoKickedLast(GameObject player) {
