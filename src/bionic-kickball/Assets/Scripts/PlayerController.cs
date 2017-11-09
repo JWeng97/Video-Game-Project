@@ -50,7 +50,8 @@ public class PlayerController: MonoBehaviour
 	public KeyCode slideKey = KeyCode.L;
 
 	private bool hasLandedSinceDivekick;
-
+	private bool isDivekicking;
+	public Vector3 diveKickForce = new Vector3(300f, -300f, 0);
 
 	void Awake()
 	{
@@ -138,11 +139,23 @@ public class PlayerController: MonoBehaviour
 		this.GetComponent<CircleCollider2D>().enabled = true;
 	}
 
+	void DiveKick(float facingDirection) {
+		isDivekicking = true;
+		_animator.Play("p1_slide");
+		Quaternion originalRotation = transform.rotation;	
+		transform.rotation = Quaternion.AngleAxis(-45 * facingDirection, Vector3.forward);
+		transform.rotation = originalRotation;
+	}
+
 	void Update()
 	{
 		if( _controller.isGrounded ) {
 			_velocity.y = 0;
 			hasLandedSinceDivekick = true;
+			isDivekicking = false;
+		} else if (this.isDivekicking) {
+			// want to continue divekick and not allow other movement
+			return;
 		}
 
 		// Move right and set correct animation
@@ -158,8 +171,8 @@ public class PlayerController: MonoBehaviour
 				} else {
 					_animator.Play("p1_run");
 				} 
-			} else if (Input.GetKey(slideKey)) {
-				_animator.Play("p1_slide");
+			} else if (Input.GetKey(slideKey) && hasLandedSinceDivekick) {
+				DiveKick(normalizedHorizontalSpeed);
 			}
 		}
 
@@ -177,8 +190,8 @@ public class PlayerController: MonoBehaviour
 					_animator.Play("p1_run");
 				}
 			// else, you are in the air so if 
-			} else if (Input.GetKey(slideKey)) {
-				_animator.Play("p1_slide");
+			} else if (Input.GetKey(slideKey) && hasLandedSinceDivekick) {
+				DiveKick(normalizedHorizontalSpeed);
 			}
 		}
 
@@ -197,13 +210,17 @@ public class PlayerController: MonoBehaviour
 			_animator.Play("p1_jump_up");
 		}
 
-
-		// apply horizontal speed smoothing it. dont really do this with Lerp. Use SmoothDamp or something that provides more control
+		//TODO: Should we use SmoothDamp?
 		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 		_velocity.x = Mathf.Lerp( _velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime * smoothedMovementFactor );
-
+		if (isDivekicking) {
+			_velocity.x = Mathf.Lerp(_velocity.x, diveKickForce.x, Time.deltaTime * smoothedMovementFactor );
+			_velocity.y += diveKickForce.y;
+			Debug.Log(_velocity);
+		}
 		// apply gravity before moving
 		_velocity.y += gravity * Time.deltaTime;
+
 
 		// if holding down bump up our movement amount and turn off one way platform detection for a frame.
 		// this lets us jump down through one way platforms
@@ -212,6 +229,8 @@ public class PlayerController: MonoBehaviour
 			_velocity.y *= 3f;
 			_controller.ignoreOneWayPlatformsThisFrame = true;
 		}
+
+
 
 		_controller.recalculateDistanceBetweenRays();
 		_controller.move( _velocity * Time.deltaTime );
