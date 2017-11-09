@@ -8,6 +8,9 @@ public class BallController : MonoBehaviour {
 	private bool grounded;
 	private CircleCollider2D _circleCollider;
 	private float distToGround;
+
+	private GameObject playerWhoKickedLast;
+
 	// Use this for initialization
 	void Awake() {
 		_circleCollider = this.GetComponent<CircleCollider2D>();
@@ -17,6 +20,14 @@ public class BallController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+	}
+
+	public void SetPlayerWhoKickedLast(GameObject player) {
+		playerWhoKickedLast = player;
+	}
+	
+	public GameObject GetPlayerWhoKickedLast() {
+		return playerWhoKickedLast;
 	}
 
 	public bool isGrounded() {

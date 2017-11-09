@@ -38,6 +38,8 @@ public class PlayerController: MonoBehaviour
 	private int deathCount = 0;
 
 	//Per-Player Settings
+	/* Player id# */
+	public int playerID = 1;
 	/* movement controls */
 	public KeyCode leftKey = KeyCode.LeftArrow;
 	public KeyCode rightKey = KeyCode.RightArrow;
@@ -45,7 +47,9 @@ public class PlayerController: MonoBehaviour
 	public KeyCode downKey = KeyCode.DownArrow;
 	/* kicking controls */
 	public KeyCode kickKey = KeyCode.K;
+	public KeyCode slideKey = KeyCode.L;
 
+	private bool hasLandedSinceDivekick;
 
 
 	void Awake()
@@ -59,7 +63,7 @@ public class PlayerController: MonoBehaviour
 		_controller.onControllerCollidedEvent += onControllerCollider;
 		_controller.onTriggerEnterEvent += onTriggerEnterEvent;
 		_controller.onTriggerExitEvent += onTriggerExitEvent;
-		playerDeaths.text = "Player 1 Deaths: " + deathCount;
+		SetPlayerDeathText();
 	}
 
 
@@ -71,10 +75,17 @@ public class PlayerController: MonoBehaviour
 		if( hit.normal.y == 1f )
 			return;
 
+		if (hit.collider.tag == "HeadCollider") {
+			Debug.Log("PLAYER HIT");
+			StartCoroutine(HitByBall());
+		}
+
+		// to kick a ball encountered by a player
 		if (hit.collider.tag == "Ball") {
 			Debug.Log("KICKED THE BALL");
 			KickBall();
 		}
+
 
 		// logs any collider hits if uncommented. it gets noisy so it is commented out for the demo
 		//Debug.Log( "flags: " + _controller.collisionState + ", hit.normal: " + hit.normal );
@@ -82,7 +93,7 @@ public class PlayerController: MonoBehaviour
 
 	void onTriggerEnterEvent( Collider2D col )
 	{
-		if (col.tag == "Ball") {
+		if (col.tag == "Ball" && _ballController.GetPlayerWhoKickedLast() != this.gameObject) {
 			Debug.Log("onTriggerEnterEvent: PLAYER HIT! " + col.gameObject.name );
 			// Eventually need to change this to accuont 
 			StartCoroutine(HitByBall());
@@ -98,8 +109,13 @@ public class PlayerController: MonoBehaviour
 	#endregion
 
 	// Triggered when player collides with the ball near the feet
+	
+	void SetPlayerDeathText() {
+		playerDeaths.text = "Player " + playerID + " Deaths: " + deathCount;
+	}
 	void KickBall() 
 	{	
+		_ballController.SetPlayerWhoKickedLast(this.gameObject);
 		kickPower = 3;
 		Vector3 angle = this.transform.forward;
 		int direction = (this._velocity.x > 0) ? 1 : -1;
@@ -124,8 +140,10 @@ public class PlayerController: MonoBehaviour
 
 	void Update()
 	{
-		if( _controller.isGrounded )
+		if( _controller.isGrounded ) {
 			_velocity.y = 0;
+			hasLandedSinceDivekick = true;
+		}
 
 		// Move right and set correct animation
 		if( Input.GetKey( rightKey ) )
@@ -134,8 +152,15 @@ public class PlayerController: MonoBehaviour
 			if( transform.localScale.x < 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 
-			if( _controller.isGrounded )
-				_animator.Play( Animator.StringToHash( "PlayerRun" ) );
+			if( _controller.isGrounded ) {
+				if (Input.GetKey(slideKey)) {
+					_animator.Play("p1_slide");
+				} else {
+					_animator.Play("p1_run");
+				} 
+			} else if (Input.GetKey(slideKey)) {
+				_animator.Play("p1_slide");
+			}
 		}
 
 		// Move left and set correct animation
@@ -145,39 +170,31 @@ public class PlayerController: MonoBehaviour
 			if( transform.localScale.x > 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 
-			if( _controller.isGrounded )
-				_animator.Play( Animator.StringToHash( "PlayerRun" ) );
+			if( _controller.isGrounded ) {
+				if (Input.GetKey(slideKey)) {
+					_animator.Play("p1_slide");	
+				} else {
+					_animator.Play("p1_run");
+				}
+			// else, you are in the air so if 
+			} else if (Input.GetKey(slideKey)) {
+				_animator.Play("p1_slide");
+			}
 		}
+
 		else
 		{
 			normalizedHorizontalSpeed = 0;
 
 			if( _controller.isGrounded )
-				_animator.Play( Animator.StringToHash( "PlayerIdle" ) );
+				_animator.Play("p1_idle");
 		}
- 
-		/*	Kick and Hold feature removed in the current version. 
-		// Gather power to kick the ball w/ space
-		if (Input.GetKey(kickKey) && kickPower < kickPowerLimit) {
-			kickPower += Time.deltaTime;
-			Debug.Log("increasing kick power: " + kickPower);
-		} 
-		if (Input.GetKeyUp(kickKey)) {
-			// if released space, check to make sure ball is close enough to the player
-			playerToBallDistance = Vector3.Distance(ball.transform.position, this.transform.position);
-			if (kickPower > 0  && playerToBallDistance < acceptablePToBDistance) {
-				KickBall();
-				print("kicked ball");
-			}
-			kickPower= 0;
-		}
-		*/
 
 		// we can only jump whilst grounded
 		if( _controller.isGrounded && Input.GetKeyDown( upKey ) )
 		{
 			_velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
-			_animator.Play( Animator.StringToHash( "PlayerJump" ) );
+			_animator.Play("p1_jump_up");
 		}
 
 
@@ -196,7 +213,9 @@ public class PlayerController: MonoBehaviour
 			_controller.ignoreOneWayPlatformsThisFrame = true;
 		}
 
+		_controller.recalculateDistanceBetweenRays();
 		_controller.move( _velocity * Time.deltaTime );
+
 
 		// grab our current _velocity to use as a base for all calculations
 		_velocity = _controller.velocity;
