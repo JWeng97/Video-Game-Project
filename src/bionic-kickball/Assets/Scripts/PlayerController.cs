@@ -115,7 +115,6 @@ public class PlayerController: MonoBehaviour
 
 	#endregion
 
-	// Triggered when player collides with the ball near the feet
 	
 	void SetPlayerDeathText() {
 		playerDeaths.text = "Player " + playerID + " Deaths: " + deathCount;
@@ -143,6 +142,8 @@ public class PlayerController: MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 		}
 		this.GetComponent<CircleCollider2D>().enabled = true;
+		// Load a random level upon death
+		Application.LoadLevel(Random.Range((int)1, (int)3));	
 	}
 
 	void DiveKick(float facingDirection) {
