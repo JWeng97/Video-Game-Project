@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
@@ -13,11 +14,10 @@ public class MainMenu : MonoBehaviour {
     public float guiPlacementY2;
     public float guiPlacementY3;
 
-
     private void OnGUI()
     {
         if (GUI.Button(new Rect(Screen.width * guiPlacementX1, Screen.height * guiPlacementY1, Screen.width * 0.5f, Screen.height * 0.1f), "Play Game")){
-            Application.LoadLevel(Random.Range(1, 2));
+            SceneManager.LoadScene(Random.Range(1, 5));
         }
         if (GUI.Button(new Rect(Screen.width * guiPlacementX2, Screen.height * guiPlacementY2, Screen.width * 0.5f, Screen.height * 0.1f), "Options"))
         {

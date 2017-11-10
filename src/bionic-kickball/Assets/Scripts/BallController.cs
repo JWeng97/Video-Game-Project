@@ -5,6 +5,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour {
 
 	public GameObject ball;
+	public GameObject[] balls;
 	private bool grounded;
 	private CircleCollider2D _circleCollider;
 	private float distToGround;
@@ -12,6 +13,7 @@ public class BallController : MonoBehaviour {
 	private GameObject blueTrail;
 	
 	private GameObject playerWhoKickedLast;
+	private bool countdownRunning = false;
 
 	// Use this for initialization
 	void Awake() {
@@ -19,6 +21,7 @@ public class BallController : MonoBehaviour {
 		distToGround = _circleCollider.bounds.extents.y;
 		redTrail = transform.Find("RedTrail").gameObject;
 		blueTrail = transform.Find("BlueTrail").gameObject;
+		balls = GameObject.FindGameObjectsWithTag("Ball");
 	}
 	
 	// Update is called once per frame
@@ -31,6 +34,23 @@ public class BallController : MonoBehaviour {
 				redTrail.SetActive(true);
 				blueTrail.SetActive(false);
 			}
+		}
+		/*if (!countdownRunning) {
+			StartCoroutine(DuplicateCountdown());
+		}*/
+	}
+
+	IEnumerator DuplicateCountdown() {
+		countdownRunning = true;
+		yield return new WaitForSeconds(30f);
+		DuplicateBalls();
+		countdownRunning = false;
+	}
+
+	void DuplicateBalls() {
+		foreach (GameObject b in balls) {
+			Vector3 newPosition = new Vector3(b.transform.position.x + 1f, b.transform.position.y, b.transform.position.z);
+			Instantiate(b, newPosition, b.transform.rotation); 
 		}
 	}
 

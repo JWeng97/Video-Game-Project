@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 124968446217063536}
   - component: {fileID: 81319076113428000}
   - component: {fileID: 114245450024251236}
+  - component: {fileID: 131229771621680396}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -112,3 +113,22 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1884955659412430}
   m_Enabled: 1
+--- !u!131 &131229771621680396
+GUITexture:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884955659412430}
+  m_Enabled: 1
+  m_Texture: {fileID: 0}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0

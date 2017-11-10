@@ -4,4 +4,22 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 54d5045f0f81942e8889601ad3fd61b1
+  - enabled: 0
+    path: Assets/Scenes/Map 2.unity
+    guid: c3ff3944ddd80884eb5b369b5dbbcbd5
+  - enabled: 1
+    path: Assets/Scenes/AlphaTest.unity
+    guid: cee4326abab654c4bb03bf256c15b1ab
+  - enabled: 1
+    path: Assets/Scenes/Levels/Map 2.unity
+    guid: da4a52f500724374cab02ad471b95990
+  - enabled: 1
+    path: Assets/Scenes/Levels/Volleyball_p1Start.unity
+    guid: 316c07b78f2052c4886f929979f3119b
+  - enabled: 1
+    path: Assets/Scenes/Levels/Volleyball_p2Start.unity
+    guid: 81fc177034f34744d923dea0a05d5265

@@ -2,6 +2,7 @@
 using System.Collections;
 using Prime31;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerController: MonoBehaviour
@@ -24,14 +25,11 @@ public class PlayerController: MonoBehaviour
 	private SpriteRenderer _spriteRenderer;
 	private Vector3 _velocity;
 	private BallController _ballController;
-	private float kickPower = 0;
+	private float kickPower = 0f;
 	// TEST value for how much power a kick can accumulate
-	public float kickPowerLimit = 3f;
 
 
 	// TEST value for when ball can be kicked
-	public float acceptablePToBDistance = 2f;
-	private float playerToBallDistance; 
 
 	// TEST count how many times a player has been hit
 	public Text playerDeaths;
@@ -46,18 +44,22 @@ public class PlayerController: MonoBehaviour
 	public KeyCode upKey = KeyCode.UpArrow;
 	public KeyCode downKey = KeyCode.DownArrow;
 	/* kicking controls */
-	public KeyCode kickKey = KeyCode.K;
 	public KeyCode slideKey = KeyCode.L;
 
 	private bool hasLandedSinceDivekick;
 	private bool isDivekicking = false;
 	private bool isSliding = false;
-	public Vector3 diveKickForce = new Vector3(150f, -150f, 0);
-	private bool SkipInputControls = false;
+	public Vector3 diveKickForce = new Vector3(3f, -3f, 0);
+	public float slideForce = 10f;
+	private bool skipInputControls = false;
 	private bool facingRight = false;
 	private bool slideOnCooldown = false;
 	private bool rotationOnCooldown = false;
 	private Quaternion startingRotation;
+
+	// How long is a slide (in seconds)
+	public float slideTime = 0.2f;
+	public float diveTime = 0.2f;
 
 
 	void Awake()
@@ -143,18 +145,39 @@ public class PlayerController: MonoBehaviour
 		}
 		this.GetComponent<CircleCollider2D>().enabled = true;
 		// Load a random level upon death
-		Application.LoadLevel(Random.Range((int)1, (int)3));	
+		SceneManager.LoadScene(Random.Range(1, 5));	
 	}
 
-	void DiveKick(float facingDirection) {
+	IEnumerator DiveKick() {
 		isDivekicking = true;
 		_animator.Play("p1_slide");
-		Quaternion originalRotation = transform.rotation;	
-		transform.rotation = Quaternion.AngleAxis(-45 * facingDirection, Vector3.forward);
+		int dir = (facingRight) ? 1 : -1;
+		transform.rotation = Quaternion.AngleAxis(-45 * dir, Vector3.forward);
+		float timer = 0.0f;
+		while (timer < diveTime) {
+			_velocity.x = Mathf.Lerp(_velocity.x, dir * diveKickForce.x, inAirDamping);
+			_velocity.y = Mathf.Lerp(_velocity.y, diveKickForce.y, inAirDamping);
+			_controller.move(_velocity * Time.deltaTime);
+			timer += Time.deltaTime;
+			yield return null;
+		}
 	}
 
-	void Slide() {
+	IEnumerator Slide() {
 		isSliding = true;
+		_animator.Play("p1_slide");
+		float timer = 0.0f;
+		while (timer < slideTime) {
+			int dir = (facingRight) ? 1 : -1;
+			_velocity.x = Mathf.Lerp(_velocity.x, dir * slideForce, groundDamping);
+			AddGravity();
+			_controller.move(_velocity * Time.deltaTime);
+			timer += Time.deltaTime;
+			yield return null;
+			print(timer);
+		}
+		isSliding = false;
+		StartCoroutine(SlideCooldown());
 	}
 
 	// Adds gravity to a move
@@ -164,28 +187,28 @@ public class PlayerController: MonoBehaviour
 
 	IEnumerator SlideCooldown() {
 		slideOnCooldown = true;
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(0.2f);
 		slideOnCooldown = false;
 	}
 	
 	IEnumerator RotationCooldown() {
 		rotationOnCooldown = true;
-		yield return new WaitForSeconds(.1f);
+		print("CANT ROTATE AGAIN");
+		yield return new WaitForSeconds(1f);
 		rotationOnCooldown = false;
 	}
 
 	void SlideOrRun() {
 		if( _controller.isGrounded ) {
 			if (Input.GetKey(slideKey) && !slideOnCooldown) {
-				_animator.Play("p1_slide");
-				StartCoroutine(SlideCooldown());
+				StartCoroutine(Slide());
 			} else {
 				_animator.Play("p1_run");
+				transform.rotation = startingRotation;
 			} 
 		// if not grounded then attempting to Divekick
 		} else if (Input.GetKey(slideKey) && hasLandedSinceDivekick) {
-			print("trying to divekick");
-			//	DiveKick(normalizedHorizontalSpeed);
+			StartCoroutine(DiveKick());
 		}
 	}
 
@@ -194,26 +217,23 @@ public class PlayerController: MonoBehaviour
 		if( _controller.isGrounded ) {
 			if (isDivekicking) {
 				isDivekicking = false;
-				SkipInputControls = false;
 				hasLandedSinceDivekick = true;
 				if (!rotationOnCooldown){
 					transform.rotation = startingRotation;
+					Debug.Log("Grounded and trying to rotate back");
 					StartCoroutine(RotationCooldown());
 				}
 			}
 			_velocity.y = 0;
-		} else if (this.isDivekicking) {
-			// want to continue divekick and not allow other movement
-			print(isDivekicking);
+		} else if (this.isDivekicking) { // want to continue divekick and not allow other movement
 			AddGravity();
-			SkipInputControls = true;
+			skipInputControls = true;
 		}
 
-		if (!SkipInputControls) {
+		if (!isDivekicking && !isSliding) {
 			// Move right and set correct animation
 			if(!_controller.isGrounded && Input.GetKey(slideKey)) {
-				int dir = (facingRight) ? 1 : -1;
-				DiveKick(dir);
+				StartCoroutine(DiveKick());
 			}
 			else if( Input.GetKey( rightKey ) )
 			{
@@ -234,11 +254,6 @@ public class PlayerController: MonoBehaviour
 					transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 				}
 				SlideOrRun();
-
-			} else if (Input.GetKey(slideKey)) {
-				//Just Sliding not divekicking, apply different force
-				_animator.Play("p1_slide");
-				print("sliding");
 			}
 			else
 			{
@@ -246,6 +261,7 @@ public class PlayerController: MonoBehaviour
 
 				if( _controller.isGrounded )
 					_animator.Play("p1_idle");
+					transform.rotation = startingRotation;
 			
 			}
 		}
@@ -259,11 +275,6 @@ public class PlayerController: MonoBehaviour
 		//TODO: Should we use SmoothDamp?
 		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 		_velocity.x = Mathf.Lerp( _velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime * smoothedMovementFactor );
-		if (isDivekicking) {
-			float horizontalForce = (facingRight) ?  diveKickForce.x  : -1 * diveKickForce.x;
-			_velocity.x = Mathf.Lerp(_velocity.x, horizontalForce, Time.deltaTime * smoothedMovementFactor );
-			_velocity.y += diveKickForce.y;
-		}
 		// apply gravity before moving
 		AddGravity();
 
@@ -277,10 +288,10 @@ public class PlayerController: MonoBehaviour
 		}*/
 
 
-
 		_controller.recalculateDistanceBetweenRays();
+		if (!isSliding || !isDivekicking) {
 		_controller.move( _velocity * Time.deltaTime );
-
+		}
 
 		// grab our current _velocity to use as a base for all calculations
 		_velocity = _controller.velocity;
