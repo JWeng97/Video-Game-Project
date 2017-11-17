@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 61576358056871112}
   - component: {fileID: 114575336192626218}
   - component: {fileID: 114056687071979540}
-  - component: {fileID: 58160960802859916}
+  - component: {fileID: 68855823358875612}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player
@@ -96,21 +96,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!58 &58160960802859916
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1619020650445062}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0119208, y: 0.094283074}
-  serializedVersion: 2
-  m_Radius: 0.1402074
 --- !u!61 &61576358056871112
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -161,6 +146,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2102046, y: 0.1938563}
   m_EdgeRadius: 0
+--- !u!68 &68855823358875612
+EdgeCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1619020650445062}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.09898424, y: -0.039161682}
+  - {x: -0.096040726, y: 0.19738668}
+  - {x: 0.13323402, y: 0.19539881}
+  - {x: 0.13182878, y: -0.031214774}
+  - {x: -0.09839058, y: -0.032895803}
 --- !u!95 &95304777016027882
 Animator:
   serializedVersion: 3
@@ -199,9 +204,11 @@ MonoBehaviour:
   playerID: 2
   leftKey: 97
   rightKey: 100
-  upKey: 119
+  upKey: 370
   downKey: 115
-  slideKey: 32
+  horizontalAxis: P2_Horizontal
+  verticalAxis: P2_Vertical
+  slideKey: 372
   diveKickForce: {x: 5, y: -5, z: 0}
   slideForce: 8
   slideTime: 0.2

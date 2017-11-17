@@ -43,6 +43,9 @@ public class PlayerController: MonoBehaviour
 	public KeyCode rightKey = KeyCode.RightArrow;
 	public KeyCode upKey = KeyCode.UpArrow;
 	public KeyCode downKey = KeyCode.DownArrow;
+	public string horizontalAxis = "";
+	public string verticalAxis = "";
+
 	/* kicking controls */
 	public KeyCode slideKey = KeyCode.L;
 
@@ -121,14 +124,18 @@ public class PlayerController: MonoBehaviour
 	void SetPlayerDeathText() {
 		playerDeaths.text = "Player " + playerID + " Deaths: " + deathCount;
 	}
-	void KickBall() 
-	{	
+	void KickBall()  //TODO: add angular component
+	{
 		_ballController.SetPlayerWhoKickedLast(this.gameObject);
-		kickPower = 3;
-		Vector3 angle = this.transform.forward;
-		int direction = (this._velocity.x > 0) ? 1 : -1;
+		kickPower = 10;
 		Vector3 playerVelocity = this._velocity;
-		ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * (angle.x * kickPower + Random.Range(5,10)), angle.y * kickPower + Random.Range(1,10)) + playerVelocity;
+		int direction = (this._velocity.x > 0) ? 1 : -1;
+
+		if (isDivekicking) {
+			ball.GetComponent<Rigidbody2D>().velocity = new Vector3(direction * kickPower, -kickPower);
+		} else {	
+			ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * kickPower + Random.Range(-2,2), kickPower + Random.Range(1, 3)) + playerVelocity;
+		}
 	}
 
 	// the animation for when a player has been hit by a ball
@@ -136,14 +143,14 @@ public class PlayerController: MonoBehaviour
 	{
 		deathCount++;
 		SetPlayerDeathText();
-		this.GetComponent<CircleCollider2D>().enabled = false;
+		this.GetComponent<EdgeCollider2D>().enabled = false;
 		for (int i = 0; i < 10; i++) {
 			_spriteRenderer.enabled = false;
 			yield return new WaitForSeconds(0.1f);
 			_spriteRenderer.enabled = true;
 			yield return new WaitForSeconds(0.1f);
 		}
-		this.GetComponent<CircleCollider2D>().enabled = true;
+		this.GetComponent<EdgeCollider2D>().enabled = true;
 		// Load a random level upon death
 		SceneManager.LoadScene(Random.Range(1, 5));	
 	}
@@ -214,6 +221,7 @@ public class PlayerController: MonoBehaviour
 
 	void Update()
 	{
+		print(Input.GetJoystickNames().Length);
 		if( _controller.isGrounded ) {
 			if (isDivekicking) {
 				isDivekicking = false;
@@ -229,13 +237,16 @@ public class PlayerController: MonoBehaviour
 			AddGravity();
 			skipInputControls = true;
 		}
+		//Determine Joystick movement
+		float verticalMovement = Input.GetAxis(verticalAxis);
+		float horizontalMovement = Input.GetAxis(horizontalAxis);
 
 		if (!isDivekicking && !isSliding) {
 			// Move right and set correct animation
 			if(!_controller.isGrounded && Input.GetKey(slideKey)) {
 				StartCoroutine(DiveKick());
 			}
-			else if( Input.GetKey( rightKey ) )
+			else if( Input.GetKey( rightKey ) || horizontalMovement > 0)
 			{
 				normalizedHorizontalSpeed = 1;
 				facingRight = true;
@@ -246,7 +257,7 @@ public class PlayerController: MonoBehaviour
 			}
 
 			// Move left and set correct animation
-			else if( Input.GetKey( leftKey ) )
+			else if( Input.GetKey( leftKey )  || horizontalMovement < 0)
 			{
 				normalizedHorizontalSpeed = -1;
 				facingRight = false;

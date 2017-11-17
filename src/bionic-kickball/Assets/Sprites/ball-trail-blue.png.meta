@@ -1,0 +1,374 @@
+fileFormatVersion: 2
+guid: 081a0e17117bd754d8eb1f2e8209d58c
+timeCreated: 1510841932
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: ball-trail-blue_0
+    21300002: ball-trail-blue_1
+    21300004: ball-trail-blue_2
+    21300006: ball-trail-blue_3
+    21300008: ball-trail-blue_4
+    21300010: ball-trail-blue_5
+    21300012: ball-trail-blue_6
+    21300014: ball-trail-blue_7
+    21300016: ball-trail-blue_8
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ball-trail-blue_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_1
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_2
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_3
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_4
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_5
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_6
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_7
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ball-trail-blue_8
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 0
+        width: 97.44444
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline:
+    - - {x: 188.5, y: -6.5}
+      - {x: 188.5, y: -22.5}
+      - {x: 198.5, y: -22.5}
+      - {x: 198.5, y: -6.5}
+    - - {x: 374.5, y: -6.5}
+      - {x: 374.5, y: -22.5}
+      - {x: 384.5, y: -22.5}
+      - {x: 384.5, y: -6.5}
+    - - {x: -13.5, y: -16.5}
+      - {x: 2.5, y: -16.5}
+      - {x: 12.5, y: -11.5}
+      - {x: 12.5, y: 13.5}
+      - {x: 10.5, y: 18.5}
+      - {x: -12.5, y: 18.5}
+      - {x: -22.5, y: 10.5}
+      - {x: -22.5, y: -2.5}
+    - - {x: 78.5, y: -0.5}
+      - {x: 76.5, y: -8.5}
+      - {x: 76.5, y: -16.5}
+      - {x: 86.5, y: -16.5}
+      - {x: 93.5, y: -8.5}
+      - {x: 93.5, y: -0.5}
+    - - {x: 95.5, y: -0.5}
+      - {x: 95.5, y: -10.5}
+      - {x: 101.5, y: -16.5}
+      - {x: 111.5, y: -16.5}
+      - {x: 111.5, y: -6.5}
+      - {x: 105.5, y: -0.5}
+    - - {x: 270.5, y: -0.5}
+      - {x: 268.5, y: -8.5}
+      - {x: 268.5, y: -16.5}
+      - {x: 278.5, y: -16.5}
+      - {x: 285.5, y: -8.5}
+      - {x: 285.5, y: -0.5}
+    - - {x: 293.5, y: -0.5}
+      - {x: 293.5, y: -10.5}
+      - {x: 299.5, y: -16.5}
+      - {x: 309.5, y: -16.5}
+      - {x: 309.5, y: -6.5}
+      - {x: 303.5, y: -0.5}
+    - - {x: -296.5, y: 12.5}
+      - {x: -307.5, y: 12.5}
+      - {x: -313.5, y: 6.5}
+      - {x: -313.5, y: -4.5}
+      - {x: -306.5, y: -10.5}
+      - {x: -296.5, y: -10.5}
+      - {x: -291.5, y: -5.5}
+      - {x: -290.5, y: -2.5}
+      - {x: -290.5, y: 5.5}
+    - - {x: -108.5, y: 12.5}
+      - {x: -108.5, y: -10.5}
+      - {x: -86.5, y: -10.5}
+      - {x: -86.5, y: 10.5}
+      - {x: -87.5, y: 12.5}
+    - - {x: 394.5, y: -0.5}
+      - {x: 392.5, y: -2.5}
+      - {x: 392.5, y: -8.5}
+      - {x: 394.5, y: -10.5}
+      - {x: 406.5, y: -10.5}
+      - {x: 408.5, y: -8.5}
+      - {x: 408.5, y: -2.5}
+      - {x: 406.5, y: -0.5}
+    - - {x: -404.5, y: 5.5}
+      - {x: -406.5, y: 3.5}
+      - {x: -406.5, y: -2.5}
+      - {x: -404.5, y: -4.5}
+      - {x: -397.5, y: -4.5}
+      - {x: -395.5, y: -2.5}
+      - {x: -395.5, y: 3.5}
+      - {x: -397.5, y: 5.5}
+    - - {x: -199.5, y: 12.5}
+      - {x: -201.5, y: 10.5}
+      - {x: -201.5, y: -2.5}
+      - {x: -199.5, y: -4.5}
+      - {x: -187.5, y: -4.5}
+      - {x: -185.5, y: -2.5}
+      - {x: -185.5, y: 10.5}
+      - {x: -187.5, y: 12.5}
+    - - {x: 171.5, y: 5.5}
+      - {x: 169.5, y: 3.5}
+      - {x: 169.5, y: -2.5}
+      - {x: 171.5, y: -4.5}
+      - {x: 184.5, y: -4.5}
+      - {x: 186.5, y: -2.5}
+      - {x: 186.5, y: 3.5}
+      - {x: 184.5, y: 5.5}
+    - - {x: 202.5, y: 5.5}
+      - {x: 200.5, y: 3.5}
+      - {x: 200.5, y: -2.5}
+      - {x: 202.5, y: -4.5}
+      - {x: 215.5, y: -4.5}
+      - {x: 217.5, y: -2.5}
+      - {x: 217.5, y: 3.5}
+      - {x: 215.5, y: 5.5}
+    - - {x: 380.5, y: 4.5}
+      - {x: 380.5, y: -4.5}
+      - {x: 390.5, y: -4.5}
+      - {x: 390.5, y: 3.5}
+      - {x: 388.5, y: 5.5}
+      - {x: 382.5, y: 5.5}
+    - - {x: 78.5, y: 18.5}
+      - {x: 76.5, y: 17.5}
+      - {x: 76.5, y: 8.5}
+      - {x: 82.5, y: 1.5}
+      - {x: 92.5, y: 1.5}
+      - {x: 93.5, y: 3.5}
+      - {x: 93.5, y: 14.5}
+      - {x: 88.5, y: 18.5}
+    - - {x: 109.5, y: 18.5}
+      - {x: 101.5, y: 18.5}
+      - {x: 95.5, y: 11.5}
+      - {x: 95.5, y: 2.5}
+      - {x: 97.5, y: 1.5}
+      - {x: 106.5, y: 1.5}
+      - {x: 111.5, y: 7.5}
+      - {x: 111.5, y: 16.5}
+    - - {x: 363.5, y: 12.5}
+      - {x: 361.5, y: 10.5}
+      - {x: 361.5, y: 3.5}
+      - {x: 363.5, y: 1.5}
+      - {x: 376.5, y: 1.5}
+      - {x: 378.5, y: 3.5}
+      - {x: 378.5, y: 10.5}
+      - {x: 376.5, y: 12.5}
+    - - {x: 190.5, y: 24.5}
+      - {x: 188.5, y: 22.5}
+      - {x: 188.5, y: 10.5}
+      - {x: 190.5, y: 8.5}
+      - {x: 196.5, y: 8.5}
+      - {x: 198.5, y: 10.5}
+      - {x: 198.5, y: 22.5}
+      - {x: 196.5, y: 24.5}
+    - - {x: 270.5, y: 24.5}
+      - {x: 268.5, y: 23.5}
+      - {x: 268.5, y: 11.5}
+      - {x: 276.5, y: 8.5}
+      - {x: 285.5, y: 8.5}
+      - {x: 285.5, y: 20.5}
+      - {x: 280.5, y: 24.5}
+    - - {x: 307.5, y: 24.5}
+      - {x: 299.5, y: 24.5}
+      - {x: 293.5, y: 19.5}
+      - {x: 293.5, y: 8.5}
+      - {x: 303.5, y: 8.5}
+      - {x: 309.5, y: 15.5}
+      - {x: 309.5, y: 22.5}
+    - - {x: 388.5, y: 24.5}
+      - {x: 386.5, y: 22.5}
+      - {x: 386.5, y: 10.5}
+      - {x: 388.5, y: 8.5}
+      - {x: 394.5, y: 8.5}
+      - {x: 396.5, y: 10.5}
+      - {x: 396.5, y: 22.5}
+      - {x: 394.5, y: 24.5}
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class InputManager {
 
-	public static bool AButton()
-	{
-		return true;	
-	}
+
 
 }
