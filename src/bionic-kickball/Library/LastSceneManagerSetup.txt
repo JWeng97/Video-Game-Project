@@ -1,10 +1,4 @@
 sceneSetups:
 - path: Assets/Scenes/MainMenu.unity
-  isLoaded: 0
-  isActive: 0
-- path: Assets/Prefabs/AlphaTest.unity
-  isLoaded: 0
-  isActive: 0
-- path: Assets/Scenes/Levels/Map 2.unity
   isLoaded: 1
   isActive: 1

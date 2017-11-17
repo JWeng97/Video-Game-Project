@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 54d5045f0f81942e8889601ad3fd61b1
   - enabled: 0
-    path: Assets/Scenes/Map 2.unity
+    path: 
     guid: c3ff3944ddd80884eb5b369b5dbbcbd5
   - enabled: 1
-    path: Assets/Scenes/AlphaTest.unity
+    path: Assets/Prefabs/AlphaTest.unity
     guid: cee4326abab654c4bb03bf256c15b1ab
   - enabled: 1
     path: Assets/Scenes/Levels/Map 2.unity
@@ -23,3 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Volleyball_p2Start.unity
     guid: 81fc177034f34744d923dea0a05d5265
+  - enabled: 1
+    path: Assets/Scenes/Levels/stair-steps.unity
+    guid: 3951b03437a7e2f4cbf077218c5f5f32
+  - enabled: 1
+    path: Assets/Scenes/Levels/one-platform.unity
+    guid: 5df73e784b865e3498a499e1396c72d7

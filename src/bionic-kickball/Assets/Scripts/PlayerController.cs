@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController: MonoBehaviour
 {
+
 	// movement config
 	public float gravity = -25f;
 	public float runSpeed = 8f;
@@ -33,7 +34,11 @@ public class PlayerController: MonoBehaviour
 
 	// TEST count how many times a player has been hit
 	public Text playerDeaths;
-	private int deathCount = 0;
+	public static int deathCount = 0;
+	//TODO: Change this to game manager script
+	public static int player1deaths = 0;
+	public static int player2deaths = 0;
+
 
 	//Per-Player Settings
 	/* Player id# */
@@ -122,26 +127,37 @@ public class PlayerController: MonoBehaviour
 
 	
 	void SetPlayerDeathText() {
-		playerDeaths.text = "Player " + playerID + " Deaths: " + deathCount;
+		if (playerID == 1)
+		{
+			playerDeaths.text = "Player " + playerID + " Deaths: " + player1deaths;
+		}
+		if (playerID == 2)
+			playerDeaths.text = "Player " + playerID + " Deaths: " + player2deaths;
 	}
 	void KickBall()  //TODO: add angular component
 	{
 		_ballController.SetPlayerWhoKickedLast(this.gameObject);
-		kickPower = 10;
+		Vector3 kickPower = new Vector3(10, 5, 0);
 		Vector3 playerVelocity = this._velocity;
 		int direction = (this._velocity.x > 0) ? 1 : -1;
 
 		if (isDivekicking) {
-			ball.GetComponent<Rigidbody2D>().velocity = new Vector3(direction * kickPower, -kickPower);
+			ball.GetComponent<Rigidbody2D>().velocity = new Vector3(direction * kickPower.x, -kickPower.y - 5);
+		} else if (isSliding) {
+			ball.GetComponent<Rigidbody2D>().velocity = new Vector3(direction * kickPower.x, kickPower.y + 5);
 		} else {	
-			ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * kickPower + Random.Range(-2,2), kickPower + Random.Range(1, 3)) + playerVelocity;
+			ball.GetComponent<Rigidbody2D>().velocity = new Vector3( direction * kickPower.x + Random.Range(-2,2), kickPower.y + Random.Range(1, 3)) + playerVelocity;
 		}
 	}
 
 	// the animation for when a player has been hit by a ball
 	IEnumerator HitByBall() 
 	{
-		deathCount++;
+
+        if (playerID == 1)
+	        { player1deaths++; }
+        if (playerID == 2)
+	        { player2deaths++; }
 		SetPlayerDeathText();
 		this.GetComponent<EdgeCollider2D>().enabled = false;
 		for (int i = 0; i < 10; i++) {
@@ -152,7 +168,7 @@ public class PlayerController: MonoBehaviour
 		}
 		this.GetComponent<EdgeCollider2D>().enabled = true;
 		// Load a random level upon death
-		SceneManager.LoadScene(Random.Range(1, 5));	
+		SceneManager.LoadScene(Random.Range(1, 7));	
 	}
 
 	IEnumerator DiveKick() {

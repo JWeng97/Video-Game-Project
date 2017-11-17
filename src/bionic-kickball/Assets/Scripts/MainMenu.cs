@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour {
     private void OnGUI()
     {
         if (GUI.Button(new Rect(Screen.width * guiPlacementX1, Screen.height * guiPlacementY1, Screen.width * 0.5f, Screen.height * 0.1f), "Play Game")){
-            SceneManager.LoadScene(Random.Range(1, 5));
+            SceneManager.LoadScene(Random.Range(1, 7));
         }
         if (GUI.Button(new Rect(Screen.width * guiPlacementX2, Screen.height * guiPlacementY2, Screen.width * 0.5f, Screen.height * 0.1f), "Options"))
         {
