@@ -26,6 +26,7 @@ public class PlayerController: MonoBehaviour
 	private SpriteRenderer _spriteRenderer;
 	private Vector3 _velocity;
 	private BallController _ballController;
+    private GameManager gameManager;
 	private float kickPower = 0f;
 	// TEST value for how much power a kick can accumulate
 
@@ -72,6 +73,7 @@ public class PlayerController: MonoBehaviour
 
 	void Awake()
 	{
+        DontDestroyOnLoad(gameManager);
 		startingRotation = transform.rotation;
 		_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
@@ -167,7 +169,8 @@ public class PlayerController: MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 		}
 		this.GetComponent<EdgeCollider2D>().enabled = true;
-		// Load a random level upon death
+        // Load a random level upon death
+        
 		SceneManager.LoadScene(Random.Range(1, 7));	
 	}
 
