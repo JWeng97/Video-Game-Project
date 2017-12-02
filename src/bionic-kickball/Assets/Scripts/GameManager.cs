@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-
+    public static GameManager instance = null;
     public Texture2D fadeOutTexture;
     public float fadeSpeed;
 
@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
     private float alpha = 1.0f; 
     private int fadeDir = -1;          //-1 = fade in, 1 = fade out
 
+    public int numberOfRounds = 0;
+    public int roundsPlayed = 0;
 
     private void OnGUI()
     {
@@ -40,6 +42,14 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
+        // Create singleton GameManager
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+        
+        DontDestroyOnLoad(gameObject);
+        
         fadeOutTexture = new Texture2D(1,1, TextureFormat.ARGB32, false);
         fadeOutTexture.SetPixel(0, 0, Color.black);
         fadeOutTexture.Apply();
