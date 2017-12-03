@@ -27,6 +27,7 @@ public class PlayerController: MonoBehaviour
 	private Vector3 _velocity;
 	private BallController _ballController;
 	private float kickPower = 0f;
+    private FadeManager fadeManager;
 	// TEST value for how much power a kick can accumulate
 
 
@@ -76,6 +77,7 @@ public class PlayerController: MonoBehaviour
 
 	void Awake()
 	{
+        DontDestroyOnLoad(fadeManager);
 		startingRotation = transform.rotation;
 		_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
