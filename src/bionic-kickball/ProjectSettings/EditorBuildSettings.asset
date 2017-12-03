@@ -8,24 +8,36 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 54d5045f0f81942e8889601ad3fd61b1
-  - enabled: 0
-    path: 
-    guid: c3ff3944ddd80884eb5b369b5dbbcbd5
   - enabled: 1
-    path: Assets/Prefabs/AlphaTest.unity
-    guid: cee4326abab654c4bb03bf256c15b1ab
+    path: Assets/Scenes/RoundSelect.unity
+    guid: 604369eae4128c542bb30b29b8364f19
   - enabled: 1
     path: Assets/Scenes/Levels/Map 2.unity
     guid: da4a52f500724374cab02ad471b95990
-  - enabled: 1
-    path: Assets/Scenes/Levels/Volleyball_p1Start.unity
-    guid: 316c07b78f2052c4886f929979f3119b
-  - enabled: 1
-    path: Assets/Scenes/Levels/Volleyball_p2Start.unity
-    guid: 81fc177034f34744d923dea0a05d5265
   - enabled: 1
     path: Assets/Scenes/Levels/stair-steps.unity
     guid: 3951b03437a7e2f4cbf077218c5f5f32
   - enabled: 1
     path: Assets/Scenes/Levels/one-platform.unity
     guid: 5df73e784b865e3498a499e1396c72d7
+  - enabled: 1
+    path: Assets/Scenes/Levels/two_diamonds.unity
+    guid: 4eb2b7de1718c9748b23214eab608871
+  - enabled: 1
+    path: Assets/Scenes/Levels/Spikes.unity
+    guid: c0e1f5757bcd007449eeacffbe97d81c
+  - enabled: 1
+    path: Assets/Scenes/Levels/sawtooth.unity
+    guid: 1f65302175113434e9b030a9a3b67660
+  - enabled: 1
+    path: Assets/Scenes/Levels/empty.unity
+    guid: 152379277e5caaa4f889d8678f931d2c
+  - enabled: 1
+    path: Assets/Scenes/Levels/in_the_middle.unity
+    guid: 7a3da0733523b3b4dbe2ae1f79cef2eb
+  - enabled: 1
+    path: Assets/Scenes/Levels/inverse-3-platforms.unity
+    guid: b4f2272d32838834c8f7019c5cb07506
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: a95c59931c419f149a9e19729b39890d

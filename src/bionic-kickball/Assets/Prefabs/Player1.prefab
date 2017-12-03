@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000253128800374}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.44, y: -1.9, z: 0}
+  m_LocalPosition: {x: -8.44, y: -1.77, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4411318095194218}
@@ -161,10 +161,10 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.09414339, y: -0.029359818}
-  - {x: -0.09483242, y: 0.18652129}
-  - {x: 0.13277483, y: 0.18714511}
-  - {x: 0.13085508, y: -0.028406799}
+  - {x: -0.10342455, y: -0.031216025}
+  - {x: -0.100400925, y: 0.19023383}
+  - {x: 0.13834333, y: 0.18900132}
+  - {x: 0.14013624, y: -0.028406799}
   - {x: -0.08892393, y: -0.029359818}
 --- !u!95 &95794207037065518
 Animator:
@@ -211,26 +211,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: -90
-      value: 1.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
       time: 0
       value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 90
-      value: 0
+      time: 1
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   totalHorizontalRays: 8
   totalVerticalRays: 4
 --- !u!114 &114720502775796360
@@ -244,8 +238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ef251b866655147974815764451e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -25
-  runSpeed: 8
+  gravity: -28
+  runSpeed: 10
   groundDamping: 20
   inAirDamping: 5
   jumpHeight: 3
@@ -258,6 +252,8 @@ MonoBehaviour:
   downKey: 274
   horizontalAxis: P1_Horizontal
   verticalAxis: P1_Vertical
+  backToMainMenu: 357
+  restartLevel: 356
   slideKey: 352
   diveKickForce: {x: 5, y: -5, z: 0}
   slideForce: 8

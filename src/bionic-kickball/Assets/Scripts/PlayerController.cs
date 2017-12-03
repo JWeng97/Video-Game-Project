@@ -26,7 +26,6 @@ public class PlayerController: MonoBehaviour
 	private SpriteRenderer _spriteRenderer;
 	private Vector3 _velocity;
 	private BallController _ballController;
-    private GameManager gameManager;
 	private float kickPower = 0f;
 	// TEST value for how much power a kick can accumulate
 
@@ -52,6 +51,10 @@ public class PlayerController: MonoBehaviour
 	public string horizontalAxis = "";
 	public string verticalAxis = "";
 
+	public KeyCode backToMainMenu = 0;
+
+	public KeyCode restartLevel = 0;
+
 	/* kicking controls */
 	public KeyCode slideKey = KeyCode.L;
 
@@ -73,7 +76,6 @@ public class PlayerController: MonoBehaviour
 
 	void Awake()
 	{
-        DontDestroyOnLoad(gameManager);
 		startingRotation = transform.rotation;
 		_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
@@ -92,7 +94,6 @@ public class PlayerController: MonoBehaviour
 
 	void onControllerCollider( RaycastHit2D hit )
 	{
-		// bail out on plain old ground hits cause they arent very interesting
 		if( hit.normal.y == 1f )
 			return;
 
@@ -104,10 +105,6 @@ public class PlayerController: MonoBehaviour
 		if (hit.collider.tag == "Ball") {
 			KickBall();
 		}
-
-
-		// logs any collider hits if uncommented. it gets noisy so it is commented out for the demo
-		//Debug.Log( "flags: " + _controller.collisionState + ", hit.normal: " + hit.normal );
 	}
 
 	void onTriggerEnterEvent( Collider2D col )
@@ -131,12 +128,12 @@ public class PlayerController: MonoBehaviour
 	void SetPlayerDeathText() {
 		if (playerID == 1)
 		{
-			playerDeaths.text = "Player " + playerID + " Deaths: " + player1deaths;
+			playerDeaths.text = "Player " + playerID + " Score: " + GameManager.instance.p1Score;
 		}
 		if (playerID == 2)
-			playerDeaths.text = "Player " + playerID + " Deaths: " + player2deaths;
+			playerDeaths.text = "Player " + playerID + " Score: " + GameManager.instance.p2Score;
 	}
-	void KickBall()  //TODO: add angular component
+	void KickBall() 
 	{
 		_ballController.SetPlayerWhoKickedLast(this.gameObject);
 		Vector3 kickPower = new Vector3(10, 5, 0);
@@ -157,9 +154,9 @@ public class PlayerController: MonoBehaviour
 	{
 
         if (playerID == 1)
-	        { player1deaths++; }
+	        { GameManager.instance.p2Score++; }
         if (playerID == 2)
-	        { player2deaths++; }
+	        { GameManager.instance.p1Score++; }
 		SetPlayerDeathText();
 		this.GetComponent<EdgeCollider2D>().enabled = false;
 		for (int i = 0; i < 10; i++) {
@@ -170,8 +167,7 @@ public class PlayerController: MonoBehaviour
 		}
 		this.GetComponent<EdgeCollider2D>().enabled = true;
         // Load a random level upon death
-        
-		SceneManager.LoadScene(Random.Range(1, 7));	
+		GameManager.instance.LoadNextLevel();	
 	}
 
 	IEnumerator DiveKick() {
@@ -240,7 +236,15 @@ public class PlayerController: MonoBehaviour
 
 	void Update()
 	{
-		print(Input.GetJoystickNames().Length);
+		// check for start button hit and go back to main menu if hit or restart level
+		if (Input.GetKey(backToMainMenu)) {
+			SceneManager.LoadScene(0);
+			GameManager.instance.WipeScore();
+		} else if (Input.GetKey(restartLevel)) {
+			Scene currentScene = SceneManager.GetActiveScene();
+			SceneManager.LoadScene(currentScene.buildIndex);
+		}
+
 		if( _controller.isGrounded ) {
 			if (isDivekicking) {
 				isDivekicking = false;
@@ -307,16 +311,6 @@ public class PlayerController: MonoBehaviour
 		_velocity.x = Mathf.Lerp( _velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime * smoothedMovementFactor );
 		// apply gravity before moving
 		AddGravity();
-
-		// if holding down bump up our movement amount and turn off one way platform detection for a frame.
-		// this lets us jump down through one way platforms
-/*		if( _controller.isGrounded && Input.GetKey( downKey ) )
-		{
-			Debug.Log("Trying to go through one way platform");
-			_velocity.y *= 3f;
-			_controller.ignoreOneWayPlatformsThisFrame = true;
-		}*/
-
 
 		_controller.recalculateDistanceBetweenRays();
 		if (!isSliding || !isDivekicking) {
