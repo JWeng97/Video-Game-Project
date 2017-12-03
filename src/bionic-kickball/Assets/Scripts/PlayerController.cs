@@ -82,49 +82,38 @@ public class PlayerController: MonoBehaviour
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_ballController = ball.GetComponent<BallController>();
 	
-		// listen to some events for illustration purposes
 		_controller.onControllerCollidedEvent += onControllerCollider;
 		_controller.onTriggerEnterEvent += onTriggerEnterEvent;
-		_controller.onTriggerExitEvent += onTriggerExitEvent;
 		SetPlayerDeathText();
 	}
 
 
-	#region Event Listeners
 
 	void onControllerCollider( RaycastHit2D hit )
 	{
 		if( hit.normal.y == 1f )
 			return;
 
-		if (hit.collider.tag == "HeadCollider") {
+		if (hit.transform.tag == "HeadCollider") {
 			StartCoroutine(HitByBall());
+			print("HIT Head");
 		}
+
 
 		// to kick a ball encountered by a player
 		if (hit.collider.tag == "Ball") {
 			KickBall();
+			print("kicked ball");
 		}
 	}
 
 	void onTriggerEnterEvent( Collider2D col )
 	{
 		if (col.tag == "Ball" && _ballController.GetPlayerWhoKickedLast() != this.gameObject) {
-			Debug.Log("onTriggerEnterEvent: PLAYER HIT! " + col.gameObject.name );
-			// Eventually need to change this to accuont 
 			StartCoroutine(HitByBall());
 		}
 	}
 
-
-	void onTriggerExitEvent( Collider2D col )
-	{
-		Debug.Log( "onTriggerExitEvent: " + col.gameObject.name );
-	}
-
-	#endregion
-
-	
 	void SetPlayerDeathText() {
 		if (playerID == 1)
 		{
@@ -236,6 +225,7 @@ public class PlayerController: MonoBehaviour
 
 	void Update()
 	{
+
 		// check for start button hit and go back to main menu if hit or restart level
 		if (Input.GetKey(backToMainMenu)) {
 			SceneManager.LoadScene(0);
@@ -306,8 +296,8 @@ public class PlayerController: MonoBehaviour
 			_animator.Play("p1_jump_up");
 		}
 
-		//TODO: Should we use SmoothDamp?
-		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
+		// set direction change
+		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; 
 		_velocity.x = Mathf.Lerp( _velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime * smoothedMovementFactor );
 		// apply gravity before moving
 		AddGravity();
