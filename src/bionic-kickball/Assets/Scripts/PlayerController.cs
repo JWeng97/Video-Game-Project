@@ -62,7 +62,7 @@ public class PlayerController: MonoBehaviour
 	private bool hasLandedSinceDivekick;
 	private bool isDivekicking = false;
 	private bool isSliding = false;
-	public Vector3 diveKickForce = new Vector3(3f, -3f, 0);
+	public Vector3 diveKickForce = new Vector3(5f, -5f, 0);
 	public float slideForce = 10f;
 	private bool skipInputControls = false;
 	private bool facingRight = false;
