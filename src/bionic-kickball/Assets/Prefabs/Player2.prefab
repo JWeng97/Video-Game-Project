@@ -205,13 +205,13 @@ MonoBehaviour:
   playerID: 2
   leftKey: 97
   rightKey: 100
-  upKey: 370
+  upKey: 119
   downKey: 115
   horizontalAxis: P2_Horizontal
   verticalAxis: P2_Vertical
-  backToMainMenu: 377
-  restartLevel: 376
-  slideKey: 372
+  backToMainMenu: 27
+  restartLevel: 8
+  slideKey: 113
   diveKickForce: {x: 5, y: -5, z: 0}
   slideForce: 8
   slideTime: 0.2

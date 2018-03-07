@@ -267,15 +267,15 @@ MonoBehaviour:
   ball: {fileID: 0}
   playerDeaths: {fileID: 0}
   playerID: 1
-  leftKey: 111
+  leftKey: 276
   rightKey: 275
-  upKey: 350
+  upKey: 273
   downKey: 274
   horizontalAxis: P1_Horizontal
   verticalAxis: P1_Vertical
-  backToMainMenu: 357
-  restartLevel: 356
-  slideKey: 352
+  backToMainMenu: 27
+  restartLevel: 8
+  slideKey: 47
   diveKickForce: {x: 5, y: -5, z: 0}
   slideForce: 8
   slideTime: 0.2
